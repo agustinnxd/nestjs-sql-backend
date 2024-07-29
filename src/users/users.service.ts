@@ -24,7 +24,7 @@ export class UsersService {
         })
 
         if(userFound) {
-            return new HttpException('User already exists', HttpStatus.CONFLICT)
+            throw new HttpException('User already exists', HttpStatus.CONFLICT)
         }
 
         const newUser = this.userRepository.create(user)
@@ -44,7 +44,7 @@ export class UsersService {
         });
 
         if(!userFound) {
-            return new HttpException('User not found', HttpStatus.NOT_FOUND);
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         };
 
         return userFound;
@@ -54,7 +54,7 @@ export class UsersService {
         const result = await this.userRepository.delete({ id });
 
         if(result.affected === 0) {
-            return new HttpException('User not found', HttpStatus.NOT_FOUND)
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND)
         }
 
         return result
@@ -64,7 +64,7 @@ export class UsersService {
         const result = await this.userRepository.update({id}, user);
 
         if(result.affected === 0 ){
-            return new HttpException('User not found', HttpStatus.NOT_FOUND)
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND)
         }
         
         return result
@@ -76,7 +76,7 @@ export class UsersService {
         })
 
         if(!userFound) {
-            return new HttpException('User not found', HttpStatus.NOT_FOUND)
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND)
         }
 
         const newProfile = this.profileRepository.create(profile)

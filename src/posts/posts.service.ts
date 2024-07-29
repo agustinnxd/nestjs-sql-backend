@@ -4,6 +4,7 @@ import { UsersService } from 'src/users/users.service';
 import { Post } from './post.entity';
 import { Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class PostsService {
@@ -28,6 +29,24 @@ export class PostsService {
        return this.postsRepository.find({
         relations: ['author']
        })
+    }
+
+    async deletePost(id: number) {
+        const result = await this.postsRepository.delete({id})
+        if( result.affected === 0 ) {
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+        }
+
+        return result
+    }
+
+    async updatePost(id: number, post: UpdatePostDto) {
+        const result = await this.postsRepository.update({id}, post)
+        if( result.affected === 0 ) {
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+        }
+
+        return result
     }
 
 }
